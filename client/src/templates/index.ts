@@ -1,0 +1,1 @@
+export { gridTemplateLargeScreens, gridTemplateSmallScreens } from "./grid"

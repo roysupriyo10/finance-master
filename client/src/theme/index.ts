@@ -1,0 +1,1 @@
+export { themeSettings } from './theme'
