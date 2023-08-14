@@ -64,11 +64,16 @@ const Row1 = () => {
 
   const intensitySector = useMemo(() => {
     if (statisticsData !== undefined) {
-      const listOfSectors: Array<{ name: string, value?: number }> = []
+      const listOfSectors: Array<{ name: string, value: number }> = []
       for (let i = 0; i < statisticsData.length; i++) {
         const current = statisticsData[i]
-        if (!(listOfSectors.includes({ name: current.sector }))) {
-          current.sector && listOfSectors.push({[current.sector]: 90})
+        const checkKeyPresence = listOfSectors.some(sector => sector.name === current.sector)
+        if (checkKeyPresence) {
+          current.sector && listOfSectors.push({name: current.sector, value: current.intensity})
+        }
+        else {
+          const index = listOfSectors.findIndex(obj => obj.name === current.sector)
+          listOfSectors[index].value = current.intensity
         }
       }
       console.log(listOfSectors)
