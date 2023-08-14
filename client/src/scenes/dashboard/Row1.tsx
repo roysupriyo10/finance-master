@@ -1,6 +1,6 @@
 import BoxHeader from "@/components/BoxHeader";
 import DashboardBox from "@/components/DashboardBox";
-import { useGetKpisQuery } from "@/state/api";
+import { useGetKpisQuery, useGetStatisticsQuery } from "@/state/api";
 import { useTheme } from "@mui/material";
 import { useMemo } from "react";
 import {
@@ -21,6 +21,7 @@ import {
 const Row1 = () => {
   const { palette } = useTheme();
   const { data } = useGetKpisQuery();
+  const { data: statisticsData } = useGetStatisticsQuery()
 
   const revenue = useMemo(() => {
     return (
@@ -33,6 +34,7 @@ const Row1 = () => {
       })
     );
   }, [data]);
+  console.log(revenue)
 
   const revenueExpenses = useMemo(() => {
     return (
@@ -59,6 +61,19 @@ const Row1 = () => {
       })
     );
   }, [data]);
+
+  const intensitySector = useMemo(() => {
+    if (statisticsData !== undefined) {
+      const listOfSectors: Array<{ name: string, value?: number }> = []
+      for (let i = 0; i < statisticsData.length; i++) {
+        const current = statisticsData[i]
+        if (!(listOfSectors.includes({ name: current.sector }))) {
+          current.sector && listOfSectors.push({[current.sector]: 90})
+        }
+      }
+      console.log(listOfSectors)
+    }
+  }, [statisticsData])
 
   return (
     <>
@@ -198,8 +213,8 @@ const Row1 = () => {
       </DashboardBox>
       <DashboardBox gridArea="c">
         <BoxHeader
-          title="Revenue Month by Month"
-          subtitle="graph representing the revenue month by month"
+          title="Intensity by Sector"
+          subtitle="bar graph representing the intensity average of each sector"
           sideText="+4%"
         />
         <ResponsiveContainer width="100%" height="100%">

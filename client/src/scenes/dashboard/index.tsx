@@ -7,7 +7,19 @@ import { useGetStatisticsQuery } from "@/state/api";
 
 
 const Dashboard = () => {
-  console.log(useGetStatisticsQuery().data)
+  const { data: statisticsData } = useGetStatisticsQuery()
+
+  if (statisticsData !== undefined) {
+    const listOfSectors: Array<string> = []
+    for (let i = 0; i < statisticsData.length; i++) {
+      const current = statisticsData[i]
+      if (!(listOfSectors.includes(current.sector))) {
+        current.sector && listOfSectors.push(current.sector)
+      }
+    }
+    console.log(listOfSectors)
+  }
+
   const isAboveMediumScreens = useMediaQuery("(min-width: 1200px)");
   return (
     <Box
