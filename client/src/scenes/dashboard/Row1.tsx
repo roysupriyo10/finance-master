@@ -62,24 +62,6 @@ const Row1 = () => {
     );
   }, [data]);
 
-  const intensitySector = useMemo(() => {
-    if (statisticsData !== undefined) {
-      const listOfSectors: Array<{ name: string, value: number }> = []
-      for (let i = 0; i < statisticsData.length; i++) {
-        const current = statisticsData[i]
-        const checkKeyPresence = listOfSectors.some(sector => sector.name === current.sector)
-        if (checkKeyPresence) {
-          current.sector && listOfSectors.push({name: current.sector, value: current.intensity})
-        }
-        else {
-          const index = listOfSectors.findIndex(obj => obj.name === current.sector)
-          listOfSectors[index].value = current.intensity
-        }
-      }
-      console.log(listOfSectors)
-    }
-  }, [statisticsData])
-
   return (
     <>
       <DashboardBox gridArea="a">
